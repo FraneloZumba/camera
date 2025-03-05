@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="grid-container">
+    <div class="menu-item">
+      <button class="menu-button" (click)="openCamera()">
+        <i class="fas fa-camera icon"></i>
+      </button>
+      <div class="menu-text">Cámara</div>
+    </div>
+    <div class="menu-item">
+      <button class="menu-button" (click)="goToGallery()">
+        <i class="fas fa-images icon"></i>
+      </button>
+      <div class="menu-text">Galería</div>
+    </div>
+    <div class="info">
+      <div class="menu-text">{{ currentDate }}</div>
+      <div class="menu-text">{{ currentTime }}</div>
+    </div>
+    <div class="toggle-mode">
+      <button (click)="toggleDarkMode()" class="dark-mode-button">
+        <i class="fas" [ngClass]="{'fa-moon': !isDarkMode, 'fa-sun': isDarkMode}"></i>
+      </button>
+    </div>
+  </div>
+</div>

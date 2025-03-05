@@ -1,0 +1,16 @@
+<div class="gallery">
+  <button (click)="goBack()" class="back-button">Regresar</button>
+
+  <h2>Galería de Fotos</h2>
+  
+  <div class="gallery-grid">
+    <!-- Muestra las imágenes almacenadas -->
+    <div *ngFor="let image of images" class="image-item">
+      <img [src]="image" alt="Imagen" (click)="openImage(image)" />
+    </div>
+  </div>
+
+  <div *ngIf="images.length === 0" class="no-images">
+    <p>No se han guardado fotos todavía.</p>
+  </div>
+</div>
