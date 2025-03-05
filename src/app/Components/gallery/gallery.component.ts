@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';  // Importamos Router para la navegación
 
@@ -26,8 +26,19 @@ export class GalleryComponent {
         directory: Directory.Data
       });
 
-      // Si tiene imágenes, las cargamos
-      this.images = result.files.map(file => `data:image/jpeg;base64,${file}`);
+      // Obtener el contenido de cada archivo y convertirlo a Base64
+      const imagePromises = result.files.map(async (fileName) => {
+        const file = await Filesystem.readFile({
+          path: `photos/${fileName}`,
+          directory: Directory.Data,
+          encoding: Encoding.UTF8  // Usamos UTF8 para leer el archivo
+        });
+        return `data:image/jpeg;base64,${file.data}`;
+      });
+
+      // Esperar a que todas las imágenes se carguen
+      this.images = await Promise.all(imagePromises);
+
     } catch (error) {
       console.error('Error al cargar las imágenes:', error);
       // Si no existen imágenes todavía, inicializamos el array vacío
@@ -37,7 +48,7 @@ export class GalleryComponent {
 
   // Abrir una imagen en tamaño completo
   openImage(image: string) {
-    // Puedes hacer algo aquí para abrir la imagen, como mostrarla en una vista modal
+    // Aquí puedes mostrar la imagen en una vista modal o similar
     console.log('Imagen seleccionada:', image);
   }
 
